@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Voice-Vault is a Laravel + React desktop application for voice transcription, built with NativePHP/Electron. It combines a Laravel 12 backend with Inertia.js and a React 19 TypeScript frontend.
 
 ## Development Commands
-
+You can assume that `npm run dev` is always running and you do not need to run `npm run build` manually.
 ### Essential Commands
 ```bash
 # Start full development environment (Laravel + Vite + Queue + Logs)

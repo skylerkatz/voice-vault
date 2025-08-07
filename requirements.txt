@@ -1,0 +1,38 @@
+**Home Page Recording Feature Requirements**
+
+**Page Layout:**
+- Header: Login and Register buttons
+- Main section: Single "Record" button (centered/prominent)
+- Audio level visualization display area
+
+**Recording Functionality:**
+1. **Initial click**: Request microphone permission if not already granted
+2. **Recording state management**:
+   - Default state: Gray recording indicator
+   - Active recording: Red recording indicator
+3. **Audio visualization**: Real-time audio level visualization while recording
+4. **Stop recording**: Post the recorded file to a backend endpoint (TBD)
+
+**Technical Specifications:**
+- Audio format: .wav (highest quality possible)
+- No maximum recording duration
+- Microphone permission handling via browser MediaRecorder API
+- Real-time audio level monitoring and visual feedback
+- File upload to backend endpoint upon recording completion
+
+**User Flow:**
+1. Click "Record" button
+2. Grant microphone permission (if needed)
+3. Recording starts → indicator turns red + audio levels display
+4. Click to stop recording
+5. File automatically posts to backend endpoint
+
+**Implementation Notes:**
+- Use MediaRecorder API for high-quality .wav recording
+- Implement AudioContext for real-time level visualization
+- Backend endpoint for file processing (to be created)
+- Visual feedback for all recording states
+
+---
+
+This should give you a clear roadmap for implementation. The audio visualization will likely involve using Web Audio API's AnalyserNode to get frequency/amplitude data for the visual display.
