@@ -20,11 +20,6 @@ export default function AudioVisualizer({ analyser, is_recording }: AudioVisuali
         const data_array = new Uint8Array(buffer_length);
 
         const draw = () => {
-            if (!is_recording) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                return;
-            }
-
             animation_id_ref.current = requestAnimationFrame(draw);
 
             analyser.getByteFrequencyData(data_array);
@@ -39,11 +34,19 @@ export default function AudioVisualizer({ analyser, is_recording }: AudioVisuali
             for (let i = 0; i < buffer_length; i++) {
                 bar_height = (data_array[i] / 255) * canvas.height * 0.8;
 
-                const red = (data_array[i] / 255) * 255;
-                const green = 50;
-                const blue = 50;
+                // Different colors for recording vs monitoring
+                if (is_recording) {
+                    // Red when recording
+                    const red = (data_array[i] / 255) * 255;
+                    const green = 50;
+                    const blue = 50;
+                    ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
+                } else {
+                    // Grayscale when monitoring (not recording)
+                    const gray_value = (data_array[i] / 255) * 200 + 55; // Range from 55-255 for visibility
+                    ctx.fillStyle = `rgb(${gray_value}, ${gray_value}, ${gray_value})`;
+                }
 
-                ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
                 ctx.fillRect(x, canvas.height - bar_height, bar_width, bar_height);
 
                 x += bar_width + 1;
@@ -60,9 +63,8 @@ export default function AudioVisualizer({ analyser, is_recording }: AudioVisuali
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        if (is_recording) {
-            draw();
-        }
+        // Always start the visualization
+        draw();
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);

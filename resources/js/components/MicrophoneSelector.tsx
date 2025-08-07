@@ -21,10 +21,11 @@ interface MediaDeviceInfo {
 interface MicrophoneSelectorProps {
     selected_device_id?: string;
     on_device_change: (device_id: string) => void;
+    on_permission_granted?: () => void;
     disabled?: boolean;
 }
 
-export default function MicrophoneSelector({ selected_device_id, on_device_change, disabled }: MicrophoneSelectorProps) {
+export default function MicrophoneSelector({ selected_device_id, on_device_change, on_permission_granted, disabled }: MicrophoneSelectorProps) {
     const [devices, set_devices] = useState<MediaDeviceInfo[]>([]);
     const [is_open, set_is_open] = useState(false);
     const [is_loading, set_is_loading] = useState(false);
@@ -42,6 +43,11 @@ export default function MicrophoneSelector({ selected_device_id, on_device_chang
                     // Request permission by asking for user media
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     stream.getTracks().forEach(track => track.stop()); // Stop immediately
+                    
+                    // Notify parent that permission was granted
+                    if (on_permission_granted) {
+                        on_permission_granted();
+                    }
                     
                     // Re-enumerate devices after permission
                     const updated_devices = await navigator.mediaDevices.enumerateDevices();
