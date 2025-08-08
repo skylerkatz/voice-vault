@@ -10,7 +10,7 @@ Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('vaults.index');
     }
-    
+
     return Inertia::render('welcome');
 })->name('home');
 

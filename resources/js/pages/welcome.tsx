@@ -52,12 +52,12 @@ export default function Welcome() {
 
                         <Card>
                             <CardHeader className="text-center">
-                                <CardTitle className="flex justify-center gap-2 items-center text-xl">
+                                <CardTitle className="flex gap-2 justify-center items-center text-xl">
                                     <Mic className="w-6 h-6" />
                                     Get Started with Voice Vault
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="text-center space-y-4">
+                            <CardContent className="space-y-4 text-center">
                                 <p className="text-gray-600 dark:text-gray-400">
                                     Voice Vault helps you record and transcribe your voice with ease. 
                                     Sign in or create an account to start recording and organizing your transcripts.
@@ -65,7 +65,7 @@ export default function Welcome() {
                                 <div className="flex gap-4 justify-center">
                                     <Link
                                         href={route('login')}
-                                        className="inline-block py-2 px-6 text-sm font-medium text-gray-700 border border-gray-300 rounded-md transition-colors dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
+                                        className="inline-block py-2 px-6 text-sm font-medium text-gray-700 rounded-md border border-gray-300 transition-colors dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                                     >
                                         Sign In
                                     </Link>

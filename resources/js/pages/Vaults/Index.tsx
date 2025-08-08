@@ -57,7 +57,7 @@ export default function VaultsIndex({ vaults }: VaultsIndexPageProps) {
             <Head title="Vaults" />
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+                <div className="mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
                             My Vaults
@@ -105,10 +105,10 @@ export default function VaultsIndex({ vaults }: VaultsIndexPageProps) {
 
                     {vaults.length === 0 ? (
                         <Card>
-                            <CardContent className="flex flex-col items-center justify-center py-12">
-                                <Mic className="w-12 h-12 text-muted-foreground mb-4" />
-                                <h3 className="text-lg font-semibold mb-2">No vaults yet</h3>
-                                <p className="text-muted-foreground mb-6">
+                            <CardContent className="flex flex-col justify-center items-center py-12">
+                                <Mic className="mb-4 w-12 h-12 text-muted-foreground" />
+                                <h3 className="mb-2 text-lg font-semibold">No vaults yet</h3>
+                                <p className="mb-6 text-muted-foreground">
                                     Create your first vault to start recording
                                 </p>
                                 <Button onClick={() => set_show_new_vault_form(true)}>
@@ -170,7 +170,7 @@ export default function VaultsIndex({ vaults }: VaultsIndexPageProps) {
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction
                             onClick={handleDeleteVault}
-                            className="bg-red-600 text-white hover:bg-red-700"
+                            className="text-white bg-red-600 hover:bg-red-700"
                         >
                             Delete
                         </AlertDialogAction>
