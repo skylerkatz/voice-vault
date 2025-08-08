@@ -32,11 +32,11 @@ class TranscribeJob implements ShouldQueue
         $audio = readAudio($this->recording->file_path);
         $segments = $whisper->transcribe($audio, 4);
         dump($segments);
-        $transcript = json_encode(array_map(fn ($segment) => [
+        $transcript = array_map(fn ($segment) => [
             'start' => $segment->startTimestamp,
             'end' => $segment->endTimestamp,
             'text' => mb_convert_encoding($segment->text, 'UTF-8', 'UTF-8'),
-        ], $segments), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+        ], $segments);
 
         $this->recording->update([
             'transcription' => $transcript,

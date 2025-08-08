@@ -12,7 +12,7 @@ class VaultFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Vault'
+            'name' => 'Vault',
         ];
     }
 }

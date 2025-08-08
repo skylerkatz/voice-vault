@@ -9,15 +9,15 @@ use Inertia\Inertia;
 Route::get('/', function () {
     $vaults = [];
     $current_vault = null;
-    
+
     if (Auth::check()) {
+        \App\Jobs\TranscribeJob::dispatch(\App\Models\Recording::find(3));
         $vaults = Auth::user()->vaults()
-            ->withCount('recordings')
             ->orderBy('created_at', 'desc')
             ->get();
         $current_vault = $vaults->first();
     }
-    
+
     return Inertia::render('welcome', [
         'vaults' => $vaults,
         'current_vault' => $current_vault,
@@ -33,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/recordings', [RecordingController::class, 'index'])->name('recordings.index');
     Route::delete('/recordings/{recording}', [RecordingController::class, 'destroy'])->name('recordings.destroy');
-    
+
     Route::resource('vaults', VaultController::class)->except(['create', 'edit']);
 });
 

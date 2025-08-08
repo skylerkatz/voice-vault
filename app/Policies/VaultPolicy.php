@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Vault;
 use App\Models\User;
+use App\Models\Vault;
 
 class VaultPolicy
 {

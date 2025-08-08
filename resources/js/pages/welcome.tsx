@@ -106,11 +106,10 @@ export default function Welcome() {
                                             variant="outline"
                                             size="sm"
                                         >
-                                            <Plus className="w-4 h-4 mr-2" />
+                                            <Plus className="mr-2 w-4 h-4" />
                                             New Vault
                                         </Button>
                                     </div>
-                                    
                                     {active_vault && (
                                         <div className="p-3 bg-gray-50 rounded-md dark:bg-gray-700">
                                             <p className="font-medium text-gray-900 dark:text-white">
@@ -121,7 +120,7 @@ export default function Welcome() {
                                             </p>
                                         </div>
                                     )}
-                                    
+
                                     {show_new_vault_form && (
                                         <form onSubmit={handleCreateVault} className="flex gap-2">
                                             <Input
@@ -136,7 +135,7 @@ export default function Welcome() {
                                             </Button>
                                         </form>
                                     )}
-                                    
+
                                     {vaults.length > 1 && (
                                         <div className="space-y-2">
                                             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -161,7 +160,7 @@ export default function Welcome() {
                                     )}
                                 </div>
                             )}
-                            
+
                             <AudioRecorder vault_id={active_vault?.id} />
                         </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,8 @@ class Vault extends Model
         'name',
     ];
 
+    protected $appends = ['recording_count', 'full_transcript'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -26,18 +29,22 @@ class Vault extends Model
         return $this->hasMany(Recording::class);
     }
 
-    public function getFullTranscriptAttribute(): string
+    protected function fullTranscript(): Attribute
     {
-        return $this->recordings()
-            ->orderBy('created_at')
-            ->get()
-            ->pluck('transcription.text')
-            ->filter()
-            ->join("\n\n");
+        return Attribute::make(
+            get: fn () => $this->recordings()
+                ->orderBy('created_at')
+                ->get()
+//                ->dd()
+                ->filter()
+                ->join("\n\n")
+        );
     }
 
-    public function getRecordingCountAttribute(): int
+    protected function recordingCount(): Attribute
     {
-        return $this->recordings()->count();
+        return Attribute::make(
+            get: fn () => $this->recordings()->count()
+        );
     }
 }

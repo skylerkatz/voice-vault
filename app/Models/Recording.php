@@ -21,11 +21,14 @@ class Recording extends Model
         'transcription',
     ];
 
-    protected $casts = [
-        'duration' => 'integer',
-        'file_size' => 'integer',
-        'transcription' => 'json',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'duration' => 'integer',
+            'file_size' => 'integer',
+            'transcription' => 'json',
+        ];
+    }
 
     public function user(): BelongsTo
     {
