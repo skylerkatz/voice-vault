@@ -22,3 +22,18 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Large model files and AI models
+/resources/models/
+*.bin
+*.ggml
+*.onnx
+*.pt
+*.pth
+*.safetensors
+
+# Storage logs and cache
+/storage/logs/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
