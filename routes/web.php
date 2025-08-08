@@ -7,21 +7,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    $vaults = [];
-    $current_vault = null;
-
     if (Auth::check()) {
-        $vaults = Auth::user()->vaults()
-            ->with('recordings') // Load recordings to calculate full_transcript
-            ->orderBy('created_at', 'desc')
-            ->get();
-        $current_vault = $vaults->first();
+        return redirect()->route('vaults.index');
     }
-
-    return Inertia::render('welcome', [
-        'vaults' => $vaults,
-        'current_vault' => $current_vault,
-    ]);
+    
+    return Inertia::render('welcome');
 })->name('home');
 
 Route::post('/recordings', [RecordingController::class, 'store'])->name('recordings.store');

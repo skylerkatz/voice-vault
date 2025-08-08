@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vault;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class VaultController extends Controller
@@ -12,7 +13,7 @@ class VaultController extends Controller
     public function index()
     {
         $vaults = Auth::user()->vaults()
-            ->withCount('recordings')
+            ->with('recordings')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -23,15 +24,20 @@ class VaultController extends Controller
 
     public function show(Vault $vault)
     {
-        $this->authorize('view', $vault);
+        Gate::authorize('view', $vault);
 
         $vault->load(['recordings' => function ($query) {
             $query->orderBy('created_at');
         }]);
 
+        $vaults = Auth::user()->vaults()
+            ->with('recordings')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return Inertia::render('Vaults/Show', [
-            'vault' => $vault,
-            'fullTranscript' => $vault->full_transcript,
+            'current_vault' => $vault,
+            'vaults' => $vaults,
         ]);
     }
 
@@ -45,12 +51,13 @@ class VaultController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->back()->with('success', 'Vault created successfully.');
+        return redirect()->route('vaults.show', $vault)
+            ->with('current_vault', $vault);
     }
 
     public function update(Request $request, Vault $vault)
     {
-        $this->authorize('update', $vault);
+        Gate::authorize('update', $vault);
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -65,10 +72,11 @@ class VaultController extends Controller
 
     public function destroy(Vault $vault)
     {
-        $this->authorize('delete', $vault);
+        Gate::authorize('delete', $vault);
 
         $vault->delete();
 
-        return redirect()->back()->with('success', 'Vault deleted successfully.');
+        return redirect()->route('vaults.index')
+            ->with('success', 'Vault deleted successfully.');
     }
 }

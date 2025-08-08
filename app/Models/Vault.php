@@ -12,6 +12,13 @@ class Vault extends Model
 {
     use HasFactory;
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Vault $vault) {
+            $vault->recordings()->delete();
+        });
+    }
+
     protected $fillable = [
         'user_id',
         'name',
