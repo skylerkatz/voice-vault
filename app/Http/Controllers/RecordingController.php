@@ -29,6 +29,7 @@ class RecordingController extends Controller
     {
         $request->validate([
             'audio' => 'required|file|mimes:wav|max:102400',
+            'vault_id' => 'nullable|exists:vaults,id',
         ]);
 
         $file = $request->file('audio');
@@ -37,6 +38,7 @@ class RecordingController extends Controller
 
         $recording = Recording::create([
             'user_id' => Auth::id(),
+            'vault_id' => $request->vault_id,
             'file_path' => storage_path('app/private/recordings/'.$file_name),
             'file_name' => $file->getClientOriginalName() ?: $file_name,
             'file_size' => $file->getSize(),

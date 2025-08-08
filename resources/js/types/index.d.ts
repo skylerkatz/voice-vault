@@ -41,3 +41,32 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface Vault {
+    id: number;
+    user_id: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
+    recordings?: Recording[];
+    recording_count?: number;
+    full_transcript?: string;
+}
+
+export interface Recording {
+    id: number;
+    user_id: number;
+    vault_id?: number | null;
+    file_path: string;
+    file_name: string;
+    duration: number;
+    file_size: number;
+    mime_type: string;
+    transcription: {
+        text?: string;
+        [key: string]: unknown;
+    } | null;
+    created_at: string;
+    updated_at: string;
+    vault?: Vault;
+}

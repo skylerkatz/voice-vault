@@ -6,12 +6,13 @@ import { useEffect, useRef, useState } from 'react';
 import Recorder from 'recorder-js';
 
 interface AudioRecorderProps {
+    vault_id?: number;
     onRecordingComplete?: (blob: Blob) => void;
     onRecordingStart?: () => void;
     onRecordingStop?: () => void;
 }
 
-export default function AudioRecorder({ onRecordingComplete, onRecordingStart, onRecordingStop }: AudioRecorderProps) {
+export default function AudioRecorder({ vault_id, onRecordingComplete, onRecordingStart, onRecordingStop }: AudioRecorderProps) {
     const [is_recording, set_is_recording] = useState(false);
     const [is_uploading, set_is_uploading] = useState(false);
     const [permission_granted, set_permission_granted] = useState(false);
@@ -340,6 +341,10 @@ export default function AudioRecorder({ onRecordingComplete, onRecordingStart, o
         const form_data = new FormData();
         const file = new File([blob], 'recording.wav', { type: 'audio/wav' });
         form_data.append('audio', file);
+        
+        if (vault_id) {
+            form_data.append('vault_id', vault_id.toString());
+        }
 
         router.post('/recordings', form_data, {
             preserveScroll: true,
