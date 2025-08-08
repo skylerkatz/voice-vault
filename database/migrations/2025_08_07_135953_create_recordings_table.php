@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('duration')->nullable();
             $table->integer('file_size');
             $table->string('mime_type');
-            $table->text('transcription')->nullable();
+            $table->json('transcription')->nullable();
             $table->timestamps();
         });
     }

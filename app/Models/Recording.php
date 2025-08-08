@@ -23,6 +23,7 @@ class Recording extends Model
     protected $casts = [
         'duration' => 'integer',
         'file_size' => 'integer',
+        'transcription' => 'json',
     ];
 
     public function user(): BelongsTo

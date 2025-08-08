@@ -2,6 +2,14 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
+import { Copy, Check } from 'lucide-react';
+
+interface TranscriptionSegment {
+    start: number;
+    end: number;
+    text: string;
+}
 
 interface Recording {
     id: number;
@@ -9,7 +17,7 @@ interface Recording {
     file_size: number;
     duration?: number;
     mime_type: string;
-    transcription?: string;
+    transcription?: string | TranscriptionSegment[];
     created_at: string;
     updated_at: string;
 }
@@ -29,6 +37,8 @@ interface RecordingsIndexProps {
 }
 
 export default function RecordingsIndex({ recordings }: RecordingsIndexProps) {
+    const [copiedId, setCopiedId] = useState<number | null>(null);
+
     const formatFileSize = (bytes: number) => {
         const sizes = ['Bytes', 'KB', 'MB', 'GB'];
         if (bytes === 0) return '0 Bytes';
@@ -47,11 +57,43 @@ export default function RecordingsIndex({ recordings }: RecordingsIndexProps) {
         return `${minutes}:${remaining_seconds.toString().padStart(2, '0')}`;
     };
 
+    const getTranscriptionText = (transcription?: string | TranscriptionSegment[]) => {
+        if (!transcription) return null;
+        
+        if (typeof transcription === 'string') {
+            try {
+                const parsed = JSON.parse(transcription) as TranscriptionSegment[];
+                return parsed.map(segment => segment.text.trim()).join(' ');
+            } catch {
+                return transcription;
+            }
+        }
+        
+        if (Array.isArray(transcription)) {
+            return transcription.map(segment => segment.text.trim()).join(' ');
+        }
+        
+        return null;
+    };
+
     const handleDelete = (recording_id: number) => {
         if (confirm('Are you sure you want to delete this recording?')) {
             router.delete(`/recordings/${recording_id}`, {
                 preserveScroll: true,
             });
+        }
+    };
+
+    const handleCopy = async (recording_id: number, transcription?: string | TranscriptionSegment[]) => {
+        const text = getTranscriptionText(transcription);
+        if (text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                setCopiedId(recording_id);
+                setTimeout(() => setCopiedId(null), 2000);
+            } catch (err) {
+                console.error('Failed to copy text:', err);
+            }
         }
     };
 
@@ -89,11 +131,31 @@ export default function RecordingsIndex({ recordings }: RecordingsIndexProps) {
                                         </div>
                                         {recording.transcription && (
                                             <div className="p-3 mt-3 bg-gray-50 rounded dark:bg-gray-800">
-                                                <p className="text-sm text-gray-700 dark:text-gray-300">{recording.transcription}</p>
+                                                <p className="text-sm text-gray-700 dark:text-gray-300">{getTranscriptionText(recording.transcription)}</p>
                                             </div>
                                         )}
                                     </div>
-                                    <div className="ml-4">
+                                    <div className="flex gap-2 ml-4">
+                                        {recording.transcription && (
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => handleCopy(recording.id, recording.transcription)}
+                                                className="flex gap-1 items-center"
+                                            >
+                                                {copiedId === recording.id ? (
+                                                    <>
+                                                        <Check className="w-4 h-4" />
+                                                        Copied
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Copy className="w-4 h-4" />
+                                                        Copy
+                                                    </>
+                                                )}
+                                            </Button>
+                                        )}
                                         <Button variant="destructive" size="sm" onClick={() => handleDelete(recording.id)}>
                                             Delete
                                         </Button>
