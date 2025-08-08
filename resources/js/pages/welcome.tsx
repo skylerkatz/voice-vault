@@ -1,10 +1,11 @@
 import AudioRecorder from '@/components/AudioRecorder';
 import TranscriptCard from '@/components/TranscriptCard';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { type Vault, type SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Plus } from 'lucide-react';
+import { Mic, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface WelcomePageProps extends SharedData {
@@ -18,7 +19,7 @@ export default function Welcome() {
     const [new_vault_name, set_new_vault_name] = useState('');
     const [show_new_vault_form, set_show_new_vault_form] = useState(false);
     const [is_transcribing, set_is_transcribing] = useState(false);
-    
+
     // Debug logging
     console.log('Welcome page debug:', {
         auth_user: !!auth.user,
@@ -120,91 +121,92 @@ export default function Welcome() {
                         </div>
 
                         <div className="grid grid-cols-1 gap-6 w-full lg:grid-cols-2">
-                            <div className="p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                                <div className="mb-6 text-center">
-                                    <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Start Recording</h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">Click the button below to record your voice</p>
-                                </div>
-
-                                {auth.user && (
-                                    <div className="mb-6 space-y-4">
-                                        <div className="flex justify-between items-center">
-                                            <h4 className="text-lg font-medium text-gray-900 dark:text-white">
-                                                Current Vault
-                                            </h4>
-                                        <Button
-                                            onClick={() => set_show_new_vault_form(!show_new_vault_form)}
-                                            variant="outline"
-                                            size="sm"
-                                        >
-                                            <Plus className="mr-2 w-4 h-4" />
-                                            New Vault
-                                        </Button>
-                                    </div>
-                                    {active_vault && (
-                                        <div className="p-3 bg-gray-50 rounded-md dark:bg-gray-700">
-                                            <p className="font-medium text-gray-900 dark:text-white">
-                                                {active_vault.name}
-                                            </p>
-                                            <p className="text-sm text-gray-600 dark:text-gray-400">
-                                                {active_vault.recording_count || 0} recordings
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    {show_new_vault_form && (
-                                        <form onSubmit={handleCreateVault} className="flex gap-2">
-                                            <Input
-                                                type="text"
-                                                placeholder="Vault name"
-                                                value={new_vault_name}
-                                                onChange={(e) => set_new_vault_name(e.target.value)}
-                                                required
-                                            />
-                                            <Button type="submit" size="sm">
-                                                Create
+                            <Card>
+                                <CardHeader className="pb-3">
+                                    <CardTitle className="flex gap-2 items-center text-lg">
+                                        <Mic className="w-5 h-5" />
+                                        Start Recording
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    {auth.user && (
+                                        <div className="mb-6 space-y-4">
+                                            <div className="flex justify-between items-center">
+                                                <h4 className="text-base font-medium">
+                                                    Current Vault
+                                                </h4>
+                                            <Button
+                                                onClick={() => set_show_new_vault_form(!show_new_vault_form)}
+                                                variant="outline"
+                                                size="sm"
+                                            >
+                                                <Plus className="mr-2 w-4 h-4" />
+                                                New Vault
                                             </Button>
-                                        </form>
-                                    )}
-
-                                    {vaults.length > 1 && (
-                                        <div className="space-y-2">
-                                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                Switch Vault:
-                                            </p>
-                                            <div className="flex flex-wrap gap-2">
-                                                {vaults.map((vault) => (
-                                                    <button
-                                                        key={vault.id}
-                                                        onClick={() => switchVault(vault)}
-                                                        className={`px-3 py-1 text-xs rounded-full transition-colors ${
-                                                            active_vault?.id === vault.id
-                                                                ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500'
-                                                        }`}
-                                                    >
-                                                        {vault.name} ({vault.recording_count || 0})
-                                                    </button>
-                                                ))}
+                                        </div>
+                                        {active_vault && (
+                                            <div className="p-3 rounded-md bg-muted">
+                                                <p className="font-medium">
+                                                    {active_vault.name}
+                                                </p>
+                                                <p className="text-sm text-muted-foreground">
+                                                    {active_vault.recording_count || 0} recordings
+                                                </p>
                                             </div>
+                                        )}
+
+                                        {show_new_vault_form && (
+                                            <form onSubmit={handleCreateVault} className="flex gap-2">
+                                                <Input
+                                                    type="text"
+                                                    placeholder="Vault name"
+                                                    value={new_vault_name}
+                                                    onChange={(e) => set_new_vault_name(e.target.value)}
+                                                    required
+                                                />
+                                                <Button type="submit" size="sm">
+                                                    Create
+                                                </Button>
+                                            </form>
+                                        )}
+
+                                        {vaults.length > 1 && (
+                                            <div className="space-y-2">
+                                                <p className="text-sm font-medium text-muted-foreground">
+                                                    Switch Vault:
+                                                </p>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {vaults.map((vault) => (
+                                                        <button
+                                                            key={vault.id}
+                                                            onClick={() => switchVault(vault)}
+                                                            className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                                                                active_vault?.id === vault.id
+                                                                    ? 'bg-primary/10 text-primary'
+                                                                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                                                            }`}
+                                                        >
+                                                            {vault.name} ({vault.recording_count || 0})
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                         </div>
                                     )}
-                                    </div>
-                                )}
 
-                                <AudioRecorder 
-                                    vault_id={active_vault?.id}
-                                    onRecordingComplete={() => set_is_transcribing(true)}
-                                />
-                            </div>
+                                    <AudioRecorder
+                                        vault_id={active_vault?.id}
+                                        onRecordingComplete={() => set_is_transcribing(true)}
+                                    />
+                                </CardContent>
+                            </Card>
 
                             {auth.user && (
-                                <div className="w-full">
-                                    <TranscriptCard 
+                                    <TranscriptCard
                                         transcript={active_vault?.full_transcript}
                                         isLoading={is_transcribing}
                                     />
-                                </div>
                             )}
                         </div>
 

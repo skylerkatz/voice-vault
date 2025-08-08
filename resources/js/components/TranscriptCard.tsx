@@ -9,7 +9,7 @@ interface TranscriptCardProps {
 
 export default function TranscriptCard({ transcript, isLoading = false }: TranscriptCardProps) {
     return (
-        <Card className="w-full">
+        <Card>
             <CardHeader className="pb-3">
                 <CardTitle className="flex gap-2 items-center text-lg">
                     <FileText className="w-5 h-5" />
@@ -17,20 +17,20 @@ export default function TranscriptCard({ transcript, isLoading = false }: Transc
                 </CardTitle>
             </CardHeader>
             <CardContent>
-                <ScrollArea className="h-48">
+                <ScrollArea className="">
                     {isLoading ? (
                         <div className="flex justify-center items-center h-full">
-                            <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
-                            <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                            <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+                            <span className="ml-2 text-sm text-muted-foreground">
                                 Transcribing...
                             </span>
                         </div>
                     ) : transcript ? (
-                        <p className="text-sm leading-relaxed text-gray-700 whitespace-pre-wrap dark:text-gray-300">
+                        <p className="text-sm leading-relaxed whitespace-pre-wrap">
                             {transcript}
                         </p>
                     ) : (
-                        <p className="py-8 text-sm italic text-center text-gray-500 dark:text-gray-400">
+                        <p className="py-8 text-sm italic text-center text-muted-foreground">
                             No transcript available. Start recording to generate a transcript.
                         </p>
                     )}
