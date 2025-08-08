@@ -46,6 +46,11 @@ class RecordingController extends Controller
         ]);
         TranscribeJob::dispatch($recording);
 
+        // Load the vault with its updated transcript
+        if ($request->vault_id) {
+            $recording->load('vault');
+        }
+
         return back()->with('success', 'Recording saved successfully');
     }
 

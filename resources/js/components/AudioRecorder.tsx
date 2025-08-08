@@ -348,7 +348,7 @@ export default function AudioRecorder({ vault_id, onRecordingComplete, onRecordi
 
         router.post('/recordings', form_data, {
             preserveScroll: true,
-            preserveState: true,
+            preserveState: false, // Allow vault data to refresh
             onSuccess: () => {
                 set_is_uploading(false);
             },

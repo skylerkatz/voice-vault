@@ -1,4 +1,5 @@
 import AudioRecorder from '@/components/AudioRecorder';
+import TranscriptCard from '@/components/TranscriptCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { type Vault, type SharedData } from '@/types';
@@ -16,6 +17,17 @@ export default function Welcome() {
     const [active_vault, set_active_vault] = useState<Vault | null>(current_vault || null);
     const [new_vault_name, set_new_vault_name] = useState('');
     const [show_new_vault_form, set_show_new_vault_form] = useState(false);
+    const [is_transcribing, set_is_transcribing] = useState(false);
+    
+    // Debug logging
+    console.log('Welcome page debug:', {
+        auth_user: !!auth.user,
+        active_vault: !!active_vault,
+        active_vault_id: active_vault?.id,
+        full_transcript: active_vault?.full_transcript,
+        vaults_count: vaults.length,
+        current_vault: current_vault
+    });
 
     useEffect(() => {
         // Auto-create or select session for authenticated users
@@ -23,8 +35,17 @@ export default function Welcome() {
             createNewVault('Vault 1');
         } else if (auth.user && vaults.length > 0 && !active_vault) {
             set_active_vault(vaults[0]);
+        } else if (current_vault && (!active_vault || active_vault.id !== current_vault.id)) {
+            // Update active vault if current_vault changes (e.g., after recording)
+            set_active_vault(current_vault);
+            // Reset transcribing state when we get new vault data
+            set_is_transcribing(false);
+        } else if (current_vault && active_vault && current_vault.id === active_vault.id) {
+            // Update active vault with new data (including transcript)
+            set_active_vault(current_vault);
+            set_is_transcribing(false);
         }
-    }, [auth.user, vaults, active_vault]);
+    }, [auth.user, vaults, current_vault]);
 
     const createNewVault = (name: string) => {
         router.post('/vaults', { name }, {
@@ -47,7 +68,11 @@ export default function Welcome() {
     };
 
     const switchVault = (vault: Vault) => {
-        set_active_vault(vault);
+        // Find the vault in the vaults array to get the full data including full_transcript
+        const full_vault = vaults.find(v => v.id === vault.id);
+        if (full_vault) {
+            set_active_vault(full_vault);
+        }
     };
 
     return (
@@ -87,20 +112,26 @@ export default function Welcome() {
                     </div>
                 </header>
 
-                <main className="flex flex-1 justify-center items-center py-12 px-4">
-                    <div className="w-full max-w-md">
+                <main className="flex flex-1 justify-center items-start py-12 px-4">
+                    <div className="w-full max-w-6xl">
                         <div className="mb-8 text-center">
-                            <h2 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Start Recording</h2>
-                            <p className="text-gray-600 dark:text-gray-400">Click the button below to record your voice</p>
+                            <h2 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Voice Vault</h2>
+                            <p className="text-gray-600 dark:text-gray-400">Record your voice and get instant transcripts</p>
                         </div>
 
-                        <div className="p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                            {auth.user && (
-                                <div className="mb-6 space-y-4">
-                                    <div className="flex justify-between items-center">
-                                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                                            Current Vault
-                                        </h3>
+                        <div className="grid grid-cols-1 gap-6 w-full lg:grid-cols-2">
+                            <div className="p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                                <div className="mb-6 text-center">
+                                    <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Start Recording</h3>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">Click the button below to record your voice</p>
+                                </div>
+
+                                {auth.user && (
+                                    <div className="mb-6 space-y-4">
+                                        <div className="flex justify-between items-center">
+                                            <h4 className="text-lg font-medium text-gray-900 dark:text-white">
+                                                Current Vault
+                                            </h4>
                                         <Button
                                             onClick={() => set_show_new_vault_form(!show_new_vault_form)}
                                             variant="outline"
@@ -158,10 +189,23 @@ export default function Welcome() {
                                             </div>
                                         </div>
                                     )}
+                                    </div>
+                                )}
+
+                                <AudioRecorder 
+                                    vault_id={active_vault?.id}
+                                    onRecordingComplete={() => set_is_transcribing(true)}
+                                />
+                            </div>
+
+                            {auth.user && (
+                                <div className="w-full">
+                                    <TranscriptCard 
+                                        transcript={active_vault?.full_transcript}
+                                        isLoading={is_transcribing}
+                                    />
                                 </div>
                             )}
-
-                            <AudioRecorder vault_id={active_vault?.id} />
                         </div>
 
                         {!auth.user && (

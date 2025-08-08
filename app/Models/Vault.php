@@ -34,8 +34,9 @@ class Vault extends Model
         return Attribute::make(
             get: fn () => $this->recordings()
                 ->orderBy('created_at')
-                ->get()
-//                ->dd()
+                ->pluck('transcription')
+                ->flatten(1)
+                ->pluck('text')
                 ->filter()
                 ->join("\n\n")
         );

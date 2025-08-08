@@ -11,8 +11,8 @@ Route::get('/', function () {
     $current_vault = null;
 
     if (Auth::check()) {
-        \App\Jobs\TranscribeJob::dispatch(\App\Models\Recording::find(3));
         $vaults = Auth::user()->vaults()
+            ->with('recordings') // Load recordings to calculate full_transcript
             ->orderBy('created_at', 'desc')
             ->get();
         $current_vault = $vaults->first();
