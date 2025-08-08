@@ -4,16 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Jobs\TranscribeJob;
 use App\Models\Recording;
-use Codewithkyrian\Whisper\Whisper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
-use function Codewithkyrian\Whisper\readAudio;
 
 class RecordingController extends Controller
 {
@@ -40,12 +37,13 @@ class RecordingController extends Controller
 
         $recording = Recording::create([
             'user_id' => Auth::id(),
-            'file_path' => storage_path('app/private/recordings/'. $file_name),
+            'file_path' => storage_path('app/private/recordings/'.$file_name),
             'file_name' => $file->getClientOriginalName() ?: $file_name,
             'file_size' => $file->getSize(),
             'mime_type' => $file->getMimeType(),
         ]);
         TranscribeJob::dispatch($recording);
+
         return back()->with('success', 'Recording saved successfully');
     }
 

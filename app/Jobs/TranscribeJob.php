@@ -10,21 +10,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use function Codewithkyrian\Whisper\outputCsv;
-use function Codewithkyrian\Whisper\outputJson;
-use function Codewithkyrian\Whisper\outputMultiple;
-use function Codewithkyrian\Whisper\outputSrt;
-use function Codewithkyrian\Whisper\outputTxt;
-use function Codewithkyrian\Whisper\outputVtt;
+
 use function Codewithkyrian\Whisper\readAudio;
 
 class TranscribeJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public Recording $recording)
-    {
-    }
+    public function __construct(public Recording $recording) {}
 
     public function handle(): void
     {
