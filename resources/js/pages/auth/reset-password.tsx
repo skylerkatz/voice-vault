@@ -49,7 +49,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             name="email"
                             autoComplete="email"
                             value={data.email}
-                            className="mt-1 block w-full"
+                            className="block mt-1 w-full"
                             readOnly
                             onChange={(e) => setData('email', e.target.value)}
                         />
@@ -64,7 +64,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             name="password"
                             autoComplete="new-password"
                             value={data.password}
-                            className="mt-1 block w-full"
+                            className="block mt-1 w-full"
                             autoFocus
                             onChange={(e) => setData('password', e.target.value)}
                             placeholder="Password"
@@ -80,7 +80,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             name="password_confirmation"
                             autoComplete="new-password"
                             value={data.password_confirmation}
-                            className="mt-1 block w-full"
+                            className="block mt-1 w-full"
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             placeholder="Confirm password"
                         />
@@ -88,7 +88,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                     </div>
 
                     <Button type="submit" className="mt-4 w-full" disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                        {processing && <LoaderCircle className="w-4 h-4 animate-spin" />}
                         Reset password
                     </Button>
                 </div>

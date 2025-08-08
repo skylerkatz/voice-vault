@@ -100,9 +100,9 @@ test('authenticated users can delete their own recordings', function () {
     Storage::fake('local');
     $user = User::factory()->create();
     $file_path = 'recordings/test-file.wav';
-    
+
     Storage::disk('local')->put($file_path, 'test content');
-    
+
     $recording = Recording::factory()->create([
         'user_id' => $user->id,
         'file_path' => $file_path,
@@ -124,7 +124,7 @@ test('authenticated users can delete their own recordings', function () {
 test('users cannot delete other users recordings', function () {
     $user = User::factory()->create();
     $other_user = User::factory()->create();
-    
+
     $recording = Recording::factory()->create([
         'user_id' => $other_user->id,
     ]);
@@ -149,17 +149,17 @@ test('unauthenticated users cannot delete recordings', function () {
 
 test('recordings are ordered by newest first on index page', function () {
     $user = User::factory()->create();
-    
+
     $old_recording = Recording::factory()->create([
         'user_id' => $user->id,
         'created_at' => now()->subDays(2),
     ]);
-    
+
     $new_recording = Recording::factory()->create([
         'user_id' => $user->id,
         'created_at' => now(),
     ]);
-    
+
     $middle_recording = Recording::factory()->create([
         'user_id' => $user->id,
         'created_at' => now()->subDay(),
@@ -187,7 +187,7 @@ test('supports wav audio format', function () {
 
     $response->assertRedirect()
         ->assertSessionHas('success', 'Recording saved successfully');
-    
+
     $this->assertDatabaseHas('recordings', [
         'user_id' => $user->id,
     ]);

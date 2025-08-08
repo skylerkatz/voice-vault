@@ -14,7 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-    
+
     Route::get('/recordings', [RecordingController::class, 'index'])->name('recordings.index');
     Route::delete('/recordings/{recording}', [RecordingController::class, 'destroy'])->name('recordings.destroy');
 });

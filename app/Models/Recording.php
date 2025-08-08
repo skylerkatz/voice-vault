@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Recording extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'file_path',

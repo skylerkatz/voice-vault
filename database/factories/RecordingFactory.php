@@ -22,8 +22,8 @@ class RecordingFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'file_path' => 'recordings/' . $this->faker->uuid() . '.wav',
-            'file_name' => $this->faker->word() . '_recording.wav',
+            'file_path' => 'recordings/'.$this->faker->uuid().'.wav',
+            'file_name' => $this->faker->word().'_recording.wav',
             'duration' => $this->faker->numberBetween(5, 300),
             'file_size' => $this->faker->numberBetween(10000, 5000000),
             'mime_type' => 'audio/wav',

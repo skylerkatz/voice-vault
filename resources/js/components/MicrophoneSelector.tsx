@@ -120,11 +120,11 @@ export default function MicrophoneSelector({ selected_device_id, on_device_chang
                 <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 w-8 p-0"
+                    className="p-0 w-8 h-8"
                     disabled={disabled}
                     title="Select microphone"
                 >
-                    <Settings className="h-4 w-4" />
+                    <Settings className="w-4 h-4" />
                 </Button>
             </DialogTrigger>
             <DialogContent>
@@ -134,9 +134,9 @@ export default function MicrophoneSelector({ selected_device_id, on_device_chang
                 </DialogHeader>
                 <div className="space-y-4">
                     {is_loading ? (
-                        <div className="text-center text-sm text-gray-500">Loading microphones...</div>
+                        <div className="text-sm text-center text-gray-500">Loading microphones...</div>
                     ) : devices.length === 0 ? (
-                        <div className="text-center text-sm text-gray-500">No microphones found</div>
+                        <div className="text-sm text-center text-gray-500">No microphones found</div>
                     ) : (
                         <div className="space-y-2">
                             {devices.map((device) => (
@@ -148,9 +148,9 @@ export default function MicrophoneSelector({ selected_device_id, on_device_chang
                                         value={device.device_id}
                                         checked={selected_device_id === device.device_id}
                                         onChange={() => handle_device_select(device.device_id)}
-                                        className="h-4 w-4"
+                                        className="w-4 h-4"
                                     />
-                                    <Label htmlFor={device.device_id} className="flex-1 cursor-pointer text-sm">
+                                    <Label htmlFor={device.device_id} className="flex-1 text-sm cursor-pointer">
                                         {device.label}
                                     </Label>
                                 </div>

@@ -74,5 +74,5 @@ export default function AudioVisualizer({ analyser, is_recording }: AudioVisuali
         };
     }, [analyser, is_recording]);
 
-    return <canvas ref={canvas_ref} className="h-full w-full rounded-lg bg-gray-100 dark:bg-gray-800" />;
+    return <canvas ref={canvas_ref} className="w-full h-full bg-gray-100 rounded-lg dark:bg-gray-800" />;
 }

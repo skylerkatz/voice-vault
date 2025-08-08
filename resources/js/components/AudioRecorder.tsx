@@ -408,25 +408,25 @@ export default function AudioRecorder({ onRecordingComplete, onRecordingStart, o
 
     return (
         <div className="flex flex-col items-center space-y-6">
-            <div className="h-32 w-full">
+            <div className="w-full h-32">
                 {analyser_ref.current && analyser_ready ? (
                     <AudioVisualizer analyser={analyser_ref.current} is_recording={is_recording} />
                 ) : !permission_granted ? (
-                    <div className="flex h-full items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-                        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+                    <div className="flex justify-center items-center h-full bg-gray-100 rounded-lg dark:bg-gray-800">
+                        <p className="text-sm text-center text-gray-600 dark:text-gray-400">
                             Please grant microphone permission by clicking the settings icon →
                         </p>
                     </div>
                 ) : (
-                    <div className="flex h-full items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-                        <p className="text-center text-sm text-gray-500 dark:text-gray-500">
+                    <div className="flex justify-center items-center h-full bg-gray-100 rounded-lg dark:bg-gray-800">
+                        <p className="text-sm text-center text-gray-500 dark:text-gray-500">
                             Initializing microphone...
                         </p>
                     </div>
                 )}
             </div>
 
-            <div className="relative flex items-center gap-2">
+            <div className="flex relative gap-2 items-center">
                 <Button
                     onClick={toggleRecording}
                     disabled={is_uploading}
@@ -438,9 +438,9 @@ export default function AudioRecorder({ onRecordingComplete, onRecordingStart, o
                     {is_uploading ? (
                         <span className="text-white">...</span>
                     ) : is_recording ? (
-                        <div className="h-6 w-6 rounded-sm bg-white" />
+                        <div className="w-6 h-6 bg-white rounded-sm" />
                     ) : (
-                        <div className="h-8 w-8 rounded-full bg-white" />
+                        <div className="w-8 h-8 bg-white rounded-full" />
                     )}
                 </Button>
 
@@ -463,7 +463,7 @@ export default function AudioRecorder({ onRecordingComplete, onRecordingStart, o
                 )}
             </div>
 
-            {error_message && <div className="text-center text-sm text-red-500">{error_message}</div>}
+            {error_message && <div className="text-sm text-center text-red-500">{error_message}</div>}
         </div>
     );
 }

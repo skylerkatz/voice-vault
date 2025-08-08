@@ -31,7 +31,7 @@ class RecordingController extends Controller
         ]);
 
         $file = $request->file('audio');
-        $file_name = Str::uuid7() . '.' . $file->getClientOriginalExtension();
+        $file_name = Str::uuid7().'.'.$file->getClientOriginalExtension();
         $file_path = $file->storeAs('recordings', $file_name, 'local');
 
         Recording::create([

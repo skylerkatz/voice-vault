@@ -8,16 +8,16 @@ export default function Welcome() {
     return (
         <>
             <Head title="Voice Vault - Voice Transcription" />
-            <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900">
+            <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
                 <header className="border-b border-gray-200 dark:border-gray-800">
-                    <div className="container mx-auto px-4 py-4">
-                        <nav className="flex items-center justify-between">
+                    <div className="container py-4 px-4 mx-auto">
+                        <nav className="flex justify-between items-center">
                             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Voice Vault</h1>
-                            <div className="flex items-center gap-4">
+                            <div className="flex gap-4 items-center">
                                 {auth.user ? (
                                     <Link
                                         href={route('dashboard')}
-                                        className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                                        className="inline-block py-2 px-4 text-sm font-medium text-white bg-blue-600 rounded-md transition-colors hover:bg-blue-700"
                                     >
                                         Dashboard
                                     </Link>
@@ -25,13 +25,13 @@ export default function Welcome() {
                                     <>
                                         <Link
                                             href={route('login')}
-                                            className="inline-block rounded-md px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                            className="inline-block py-2 px-4 text-sm font-medium text-gray-700 rounded-md transition-colors dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                                         >
                                             Log in
                                         </Link>
                                         <Link
                                             href={route('register')}
-                                            className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                                            className="inline-block py-2 px-4 text-sm font-medium text-white bg-blue-600 rounded-md transition-colors hover:bg-blue-700"
                                         >
                                             Register
                                         </Link>
@@ -42,14 +42,14 @@ export default function Welcome() {
                     </div>
                 </header>
 
-                <main className="flex flex-1 items-center justify-center px-4 py-12">
+                <main className="flex flex-1 justify-center items-center py-12 px-4">
                     <div className="w-full max-w-md">
                         <div className="mb-8 text-center">
                             <h2 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Start Recording</h2>
                             <p className="text-gray-600 dark:text-gray-400">Click the button below to record your voice</p>
                         </div>
 
-                        <div className="rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800">
+                        <div className="p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
                             <AudioRecorder />
                         </div>
 

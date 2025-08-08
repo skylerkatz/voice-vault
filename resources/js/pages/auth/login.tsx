@@ -91,12 +91,12 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     </div>
 
                     <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                        {processing && <LoaderCircle className="w-4 h-4 animate-spin" />}
                         Log in
                     </Button>
                 </div>
 
-                <div className="text-center text-sm text-muted-foreground">
+                <div className="text-sm text-center text-muted-foreground">
                     Don't have an account?{' '}
                     <TextLink href={route('register')} tabIndex={5}>
                         Sign up
@@ -104,7 +104,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 </div>
             </form>
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+            {status && <div className="mb-4 text-sm font-medium text-center text-green-600">{status}</div>}
         </AuthLayout>
     );
 }

@@ -25,7 +25,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
         <AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
             <Head title="Forgot password" />
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+            {status && <div className="mb-4 text-sm font-medium text-center text-green-600">{status}</div>}
 
             <div className="space-y-6">
                 <form onSubmit={submit}>
@@ -45,15 +45,15 @@ export default function ForgotPassword({ status }: { status?: string }) {
                         <InputError message={errors.email} />
                     </div>
 
-                    <div className="my-6 flex items-center justify-start">
+                    <div className="flex justify-start items-center my-6">
                         <Button className="w-full" disabled={processing}>
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                            {processing && <LoaderCircle className="w-4 h-4 animate-spin" />}
                             Email password reset link
                         </Button>
                     </div>
                 </form>
 
-                <div className="space-x-1 text-center text-sm text-muted-foreground">
+                <div className="space-x-1 text-sm text-center text-muted-foreground">
                     <span>Or, return to</span>
                     <TextLink href={route('login')}>log in</TextLink>
                 </div>

@@ -59,8 +59,8 @@ export default function RecordingsIndex({ recordings }: RecordingsIndexProps) {
         <AppLayout>
             <Head title="My Recordings" />
 
-            <div className="container mx-auto px-4 py-8">
-                <div className="mb-6 flex items-center justify-between">
+            <div className="container py-8 px-4 mx-auto">
+                <div className="flex justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Recordings</h1>
                     <Link href="/">
                         <Button>New Recording</Button>
@@ -78,7 +78,7 @@ export default function RecordingsIndex({ recordings }: RecordingsIndexProps) {
                     <div className="space-y-4">
                         {recordings.data.map((recording) => (
                             <Card key={recording.id} className="p-4">
-                                <div className="flex items-start justify-between">
+                                <div className="flex justify-between items-start">
                                     <div className="flex-1">
                                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{recording.file_name}</h3>
                                         <div className="mt-1 space-y-1 text-sm text-gray-500 dark:text-gray-400">
@@ -88,7 +88,7 @@ export default function RecordingsIndex({ recordings }: RecordingsIndexProps) {
                                             <p>Recorded: {formatDate(recording.created_at)}</p>
                                         </div>
                                         {recording.transcription && (
-                                            <div className="mt-3 rounded bg-gray-50 p-3 dark:bg-gray-800">
+                                            <div className="p-3 mt-3 bg-gray-50 rounded dark:bg-gray-800">
                                                 <p className="text-sm text-gray-700 dark:text-gray-300">{recording.transcription}</p>
                                             </div>
                                         )}
@@ -105,7 +105,7 @@ export default function RecordingsIndex({ recordings }: RecordingsIndexProps) {
                 )}
 
                 {recordings.last_page > 1 && (
-                    <div className="mt-6 flex justify-center space-x-2">
+                    <div className="flex justify-center mt-6 space-x-2">
                         {recordings.prev_page_url && (
                             <Button variant="outline" onClick={() => router.visit(recordings.prev_page_url!)}>
                                 Previous
